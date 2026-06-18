@@ -1,6 +1,6 @@
 # ATA SDK — Architecture and Implementation Roadmap
 ## Status: Design concept | Not part of protocol specification
-## Date: April 2026
+## Date: June 2026
 
 This document captures the SDK design intent for the ATA protocol.
 SDK concerns are separate from the protocol specification and do not
@@ -374,5 +374,5 @@ ata-protocol/
 
 **Status:** Design concept. Not implemented.
 **Next step:** Python PoC — mcp-poc/ directory.
-**Author:** Alex Anokhin
-**Date:** April 2026
+**Author:** Oleksandr Anokhin
+**Date:** June 2026

@@ -1,5 +1,5 @@
 # ATA Implementation Guidance
-## draft-anokhin-ata-ig-00 | April 2026
+## draft-anokhin-ata-ig-00 | June 2026
 
 This document provides implementation guidance for the ATA protocol
 as defined in draft-anokhin-ata-00. It describes required changes per
@@ -88,7 +88,7 @@ demonstrate protocol-agnostic applicability.
 optional Agent Card field
 
 A2A operates over HTTPS (JSON-RPC 2.0). ATA requires no changes
-to A2A itself. Signed agent cards (A2A v0.3) and ATA are complementary:
+to A2A itself. Signed agent cards (A2A v1.0) and ATA are complementary:
 cards establish content integrity; ATA adds session-layer hardware
 attestation.
 
@@ -453,7 +453,7 @@ Regulatory (parallel with Product v1)
 
 ---
 
-**Author:** Alex Anokhin
+**Author:** Oleksandr Anokhin
 **Contact:** olanokhin@gmail.com
 **GitHub:** github.com/olanokhin/ata-protocol
-**Date:** April 2026
+**Date:** June 2026
