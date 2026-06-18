@@ -1,18 +1,17 @@
 # ATA: Authorization Type Attestation Protocol
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Status](https://img.shields.io/badge/Status-draft--anokhin--ata--00-orange.svg)]()
+[![IETF Draft](https://img.shields.io/badge/IETF-draft--anokhin--ata-orange.svg)](https://datatracker.ietf.org/doc/draft-anokhin-ata/)
 [![Author](https://img.shields.io/badge/Author-Alex_Anokhin-purple)](https://olanokhin.com)
 [![HF Space](https://img.shields.io/badge/🤗%20Demo-HuggingFace%20Spaces-yellow.svg)](https://huggingface.co/spaces/olanokhin/ata-protocol-demo)
 ![ATA PoC Demo](assets/demo.gif)
 
-> *TLS secured the channel. ATA identifies who authorized it.*
+> *TLS secures the channel. ATA attests the authorization type behind it.*
 
-The current PoC implementation still uses legacy `ANV` names for
-headers, CLI flags, endpoints, and Python symbols (`X-ANV-*`,
-`--anv`, `/anv/stats`, `ANVMiddleware`). Those names are retained
-for compatibility with the existing demo and will be migrated
-separately if ATA sticks.
+Current Internet-Draft: [draft-anokhin-ata](https://datatracker.ietf.org/doc/draft-anokhin-ata/).
+
+This repository contains the draft source, implementation guidance, SDK design notes,
+and PoC material for evaluating ATA in MCP and other agentic communication paths.
 
 ---
 
