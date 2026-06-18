@@ -2,8 +2,9 @@
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![IETF Draft](https://img.shields.io/badge/IETF-draft--anokhin--ata-orange.svg)](https://datatracker.ietf.org/doc/draft-anokhin-ata/)
-[![Author](https://img.shields.io/badge/Author-Alex_Anokhin-purple)](https://olanokhin.com)
-[![HF Space](https://img.shields.io/badge/🤗%20Demo-HuggingFace%20Spaces-yellow.svg)](https://huggingface.co/spaces/olanokhin/ata-protocol-demo)
+[![Author](https://img.shields.io/badge/Author-Oleksandr_Anokhin-purple)](https://olanokhin.com)
+[![HF Space](https://img.shields.io/badge/%F0%9F%A4%97%20Demo-HuggingFace%20Spaces-yellow.svg)](https://huggingface.co/spaces/olanokhin/ata-protocol-demo)
+
 ![ATA PoC Demo](assets/demo.gif)
 
 > *TLS secures the channel. ATA attests the authorization type behind it.*
@@ -58,6 +59,7 @@ incompatible deployments emerge.
 ## Non-Goals
 
 ATA explicitly does not:
+
 - Replace existing identity systems (mTLS, SPIFFE, OAuth 2.1, FIDO2)
 - Verify content authorship or per-message origin
 - Attest to internal AI implementation details
@@ -68,11 +70,13 @@ ATA explicitly does not:
 - Prove provider identity beyond organizational certificate level
 
 **ATA cryptographically guarantees:**
+
 - Which attestation class authorized the session
 - That a hardware-bound credential authorized session initiation
 - Organizational-level identity of the authorizing party
 
 **ATA does NOT cryptographically guarantee:**
+
 - Continuous presence of the authorizing party after initiation
 - Per-message content authorship
 - Prevention of SIGNED_HUMAN relaying AI-generated content
@@ -167,7 +171,7 @@ prove which AI provider instance initiated the request at the hardware
 level. ATA addresses this as a TLS extension beneath MCP.
 No MCP protocol changes required.
 
-**A2A:** Signed agent cards (v0.3) establish card content integrity.
+**A2A:** Signed agent cards (v1.0) establish card content integrity.
 ATA adds hardware-bound provider attestation at the session layer,
 complementing rather than replacing signed cards.
 No A2A protocol changes required.
@@ -219,19 +223,19 @@ not applicable in ATA sense. Existing standards apply.
 
 ## Relation to Existing Standards
 
-| Standard | Function | Relation to ATA |
-|---|---|---|
-| TLS 1.3 | Server certificate verification | ATA adds session-layer authorization type encoding |
-| mTLS | Mutual certificate authentication | Establishes workload identity; does not encode human vs AI type |
-| FIDO2 | Human-device binding | Human side only; ATA adds AI-side and session-level type |
-| SPIFFE/SPIRE | Workload identity (cloud/K8s) | Infrastructure identity; no human/AI semantic distinction |
-| OAuth 2.1 | Authorization scope and token integrity | Permission layer; ATA is attestation layer below |
-| RATS/EAT [RFC9528] | Remote attestation procedures | ATA attestation_payload uses EAT format; RATS is the verification layer |
-| RFC 9421 | HTTP Message Signatures | HTTP-layer signing; ATA operates at TLS session layer |
-| MCP auth spec | Token-based MCP authorization | Hardware-level provider attestation open; ATA addresses this |
-| A2A agent cards | Agent capability declaration | Card integrity (v0.3); ATA adds session-layer hardware attestation |
-| C2PA | Content signing post-creation | Asynchronous; out of ATA scope |
-| CT logs | Certificate audit trail | Proposed as ATA attestation registry model |
+| Standard           | Function                                | Relation to ATA                                                          |
+| ------------------ | --------------------------------------- | ------------------------------------------------------------------------ |
+| TLS 1.3            | Server certificate verification         | ATA adds session-layer authorization type encoding                       |
+| mTLS               | Mutual certificate authentication       | Establishes workload identity; does not encode human vs AI type          |
+| FIDO2              | Human-device binding                    | Human side only; ATA adds AI-side and session-level type                 |
+| SPIFFE/SPIRE       | Workload identity (cloud/K8s)           | Infrastructure identity; no human/AI semantic distinction                |
+| OAuth 2.1          | Authorization scope and token integrity | Permission layer; ATA is attestation layer below                         |
+| RATS/EAT [RFC9711] | Remote attestation procedures           | ATA attestation_payload uses EAT format; RATS is the verification layer  |
+| RFC 9421           | HTTP Message Signatures                 | HTTP-layer signing; ATA operates at TLS session layer                    |
+| MCP auth spec      | Token-based MCP authorization           | Hardware-level provider attestation open; ATA addresses this             |
+| A2A agent cards    | Agent capability declaration            | Card integrity (v1.0); ATA adds session-layer hardware attestation       |
+| C2PA               | Content signing post-creation           | Asynchronous; out of ATA scope                                           |
+| CT logs [RFC9162]  | Certificate audit trail                 | Proposed as ATA attestation registry model                               |
 
 ATA is composable with all of the above:
 TLS+ATA, MCP+ATA, A2A+ATA, FIDO2+ATA, SPIFFE+ATA.
@@ -255,7 +259,7 @@ at the organizational level from session records.
 ## Attestation Payload Format
 
 ATA attestation_payload uses Entity Attestation Token (EAT) format
-[RFC9528], consistent with IETF RATS (Remote ATtestation procedureS)
+[RFC9711], consistent with IETF RATS (Remote ATtestation procedureS)
 architecture. Hardware-specific verification (SGX, SEV, TDX, TrustZone)
 is delegated to RATS Verifier services, abstracting hardware diversity
 from the ATA session layer. Receiving parties verify the EAT token
@@ -274,7 +278,7 @@ implement ATA without hardware changes.
 
 Existing Certificate Authorities extend to issue AI provider endpoint
 certificates using existing organizational validation processes.
-Certificate Transparency log infrastructure [RFC6962] provides the
+Certificate Transparency log infrastructure [RFC9162] provides the
 audit trail for provider attestations.
 
 Adoption is voluntary. UNSIGNED remains valid for legacy compatibility.
@@ -307,7 +311,7 @@ Adoption is voluntary. UNSIGNED remains valid for legacy compatibility.
 ```
 PoC Stage 1 — MCP (Q2 2026)
   TLS ATA extension, vendor-neutral mock attestation
-  Single AI provider → single MCP server
+  Single AI provider -> single MCP server
   Demonstrate: provider type visible before first tool call
   Measure: Phase 1 latency overhead
   Artifact: open source implementation + benchmark
@@ -320,7 +324,7 @@ PoC Stage 2 — A2A (Q2 2026)
 MVP (Q3 2026)
   One CA issues real AI provider endpoint certificate
   IETF draft-01: wire format + KDF + EAT attestation_payload spec
-  Community outreach: MCP, A2A, IETF RATS WG, IETF WIMSE WG, IRTF
+  Community outreach: SECDISPATCH, IETF RATS WG, IETF WIMSE WG, IRTF
 
 Product v1 (2027)
   CA/Browser Forum AI provider cert profile adopted
@@ -339,7 +343,7 @@ Regulatory (parallel with Product v1)
 
 ---
 
-**Author:** Alex Anokhin
+**Author:** Oleksandr Anokhin
 **Contact:** olanokhin@gmail.com
 **GitHub:** github.com/olanokhin/ata-protocol
-**Date:** April 2026
+**Date:** June 2026
